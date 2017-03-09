@@ -1,0 +1,16 @@
+#N canvas 524 52 450 300 10;
+#X msg 91 66 disconnect;
+#X floatatom 108 95 5 0 0 0 - - -, f 5;
+#X msg 107 117 send foo \$1;
+#X obj 73 155 netsend;
+#X floatatom 74 195 5 0 0 0 - - -, f 5;
+#X obj 119 194 print backward;
+#X msg 74 38 connect localhost 5005;
+#X msg 195 118 send bar BQ;
+#X connect 0 0 3 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 3 1 5 0;
+#X connect 6 0 3 0;
+#X connect 7 0 3 0;
