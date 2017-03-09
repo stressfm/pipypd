@@ -1,8 +1,8 @@
 import socket
 
-HOST='localhost'
-PORT=5005
-EOF=';\n'
+HOST='localhost'    # The remote host
+PORT=5005           # The same port as used by the client
+EOF=';\n'           # Pd FUDI compatibility
 
 # create socket
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -13,10 +13,13 @@ serversocket.listen(5) # become a server socket, maximum 5 connections
 conn, addr = serversocket.accept()
 print 'connected by ', addr
 
+try:
+    while 1:
+        buf = conn.recv(512)
+        if len(buf) > 0:
+            print buf.rstrip(EOF) # do whatever
+except Exception as e:
+    print e
 # listen to connections
-while 1:
-    buf = conn.recv(64)
-    if len(buf) > 0:
-        print buf.rstrip(EOF) # do whatever
         
 conn.close()

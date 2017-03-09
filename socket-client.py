@@ -11,7 +11,8 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 n=1
 while n<1001:
-    m=math.sqrt(n*3)
+    # m=math.sqrt(n*3)
+    m='BQ'
     s.sendall('foo %s%sbar %s%s' % (n, EOF, m, EOF))
     n=n+1
     time.sleep(0.1)

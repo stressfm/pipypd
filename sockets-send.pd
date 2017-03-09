@@ -1,4 +1,4 @@
-#N canvas 524 52 450 300 10;
+#N canvas 840 23 428 300 10;
 #X msg 91 66 disconnect;
 #X floatatom 108 95 5 0 0 0 - - -, f 5;
 #X msg 107 117 send foo \$1;
