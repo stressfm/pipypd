@@ -1,9 +1,12 @@
 import asyncore
 import socket
+import sys
 
-HOST='localhost'    # The remote host
-PORT=5005           # The same port as used by the client
-EOF=';\n'           # Pd FUDI compatibility
+HOST=''             # The remote host. Any, if empty.
+PORT=5005           # The same port as used by the client.
+EOF=';\n'           # Pd FUDI compatibility.
+
+conn=''
 
 class MainServerSocket(asyncore.dispatcher):
 
@@ -15,8 +18,9 @@ class MainServerSocket(asyncore.dispatcher):
         print "Listening on port", port
 
     def handle_accept(self):
-        newSocket, address = self.accept(  )
-        print "Connected from", address
+        newSocket, address = self.accept()
+        conn=newSocket
+        # print "Connected from", address
         SecondaryServerSocket(newSocket)
 
 
@@ -25,8 +29,9 @@ class SecondaryServerSocket(asyncore.dispatcher_with_send):
     def handle_read(self):
         receivedData = self.recv(8192)
         if receivedData:
-            print receivedData.rstrip(EOF)
-            self.send(receivedData)
+            # print receivedData.rstrip(EOF)
+            # self.send(receivedData)
+            conn = self
         else:
             self.close()
 
@@ -34,4 +39,7 @@ class SecondaryServerSocket(asyncore.dispatcher_with_send):
         print "Disconnected from", self.getpeername()
 
 MainServerSocket(HOST, PORT)
-asyncore.loop(  )
+asyncore.loop()
+
+for line in sys.stdin:
+    conn.send(line)
