@@ -41,8 +41,9 @@ def RCtime (PiPin):
   return str(end - start)
 
 # Connects the socket
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)    # DGRAM=UDP, STREAM=TCP
-                                                        # (Max/MSP is only compatible with UDP)
+# DGRAM=UDP, STREAM=TCP
+# (Max/MSP is only compatible with UDP)
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 def socketConnect ():
     try:
       s.connect((HOST, PORT))
