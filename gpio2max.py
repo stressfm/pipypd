@@ -10,7 +10,7 @@
 
 import RPi.GPIO as GPIO
 import time
-import socket
+import OSC
 
 HOST='pratt.lan'    # The remote host
 PORT=5008           # The same port as used by the server
@@ -41,19 +41,19 @@ def RCtime (PiPin):
   return str(end - start)
 
 # Connects the socket
-# DGRAM=UDP, STREAM=TCP
-# (Max/MSP is only compatible with UDP)
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-def socketConnect ():
+c = OSC.OSCClient()
+oscmsg = ''
+def connect ():
     try:
-      s.connect((HOST, PORT))
-    except socket.error as err:
+        c.connect((HOST, PORT))   # connect to SuperCollider
+        oscmsg = OSC.OSCMessage()
+    except Exception as err:
       print err
       pass
 
 # Main program loop
 n = 1
-socketConnect()
+connect()
 try:
   while True:
     # Measure timing using GPIO4
@@ -61,14 +61,18 @@ try:
     # Send to the connected socket
     # (as we're using UDP, we must
     # send separate messages)
-    s.sendall('foo/%s%s' % (n, EOF))
-    s.sendall('bar/%s%s' % (risetime, EOF))
+    oscmsg.clear()
+    oscmsg.setAddress("/foo")
+    oscmsg.append(n)
+    c.send(oscmsg)
+
+    oscmsg.clear()
+    oscmsg.setAddress("/bar")
+    oscmsg.append(risetime)
+    c.send(oscmsg)
+
     # Advance counter
     n = n + 1
-except socket.error as err:
-  print err
-  GPIO.cleanup()
-  s.close()
 except KeyboardInterrupt:
   GPIO.cleanup()
   s.close()
