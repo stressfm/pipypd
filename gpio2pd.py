@@ -41,8 +41,6 @@ def RCtime (PiPin):
   return str(end - start)
 
 # Connects the socket
-# DGRAM=UDP, STREAM=TCP
-# (Max/MSP is only compatible with UDP)
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 def socketConnect ():
     try:
@@ -58,9 +56,7 @@ try:
   while True:
     # Measure timing using GPIO4
     risetime = RCtime(4)
-    # Send to the connected socket
-    # (as we're using UDP, we must
-    # send separate messages)
+    # Send to connected socket
     s.sendall('foo %s%s' % (n, EOF))
     s.sendall('bar %s%s' % (risetime, EOF))
     # Advance counter
