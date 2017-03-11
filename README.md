@@ -1,2 +1,2 @@
 # pipypd
-Python to Pd/Max crosstalk via FUDI sockets to [netsend] and [netreceive]
+Python to Pd/Max messages via FUDI sockets to [netreceive]
