@@ -42,25 +42,16 @@ def RCtime (PiPin):
 
 # Connects the socket
 c = OSC.OSCClient()
-oscmsg = ''
-def connect ():
-    try:
-        c.connect((HOST, PORT))   # connect to SuperCollider
-        oscmsg = OSC.OSCMessage()
-    except Exception as err:
-      print err
-      pass
+oscmsg = OSC.OSCMessage()
+c.connect((HOST, PORT))   # connect to SuperCollider
 
 # Main program loop
 n = 1
-connect()
 try:
   while True:
     # Measure timing using GPIO4
     risetime = RCtime(4)
     # Send to the connected socket
-    # (as we're using UDP, we must
-    # send separate messages)
     oscmsg.clear()
     oscmsg.setAddress("/foo")
     oscmsg.append(n)
@@ -68,14 +59,13 @@ try:
 
     oscmsg.clear()
     oscmsg.setAddress("/bar")
-    oscmsg.append(risetime)
+    oscmsg.append(float(risetime))
     c.send(oscmsg)
 
     # Advance counter
     n = n + 1
 except KeyboardInterrupt:
   GPIO.cleanup()
-  s.close()
   print ''
   pass
 
