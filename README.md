@@ -1,2 +1,3 @@
 # pipypd
-Python to Pd/Max messages via FUDI sockets to [netreceive]
+Python to Pd and Max messages.
+Via FUDI sockets to [netreceive] in Pd, and via OSC sockets to [udpreceive] in Max.
