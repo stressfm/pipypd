@@ -1,7 +1,7 @@
 import OSC
 
 c = OSC.OSCClient()
-c.connect(('pratt.lan', 5008))   # connect to SuperCollider
+c.connect(('localhost', 5008))   # connect to SuperCollider
 oscmsg = OSC.OSCMessage()
 
 oscmsg.setAddress("/foo")
